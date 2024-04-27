@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+    <metadata>
+        <id>YourProjectName</id>
+        <version>1.0.0</version>
+        <authors>Mykyta Kozachok</authors>
+        <owners>Mykyta Kozachok</owners>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>TablerIcons for wpf tabler.io/icons</description>
+        <releaseNotes>Initial release</releaseNotes>
+    </metadata>
+    <files>
+        <file src="bin\Release\netstandard2.0\YourProjectName.dll" target="lib\netstandard2.0" />
+    </files>
+</package>

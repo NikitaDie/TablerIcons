@@ -1,11 +1,17 @@
-﻿using System.Windows;
+﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace TablerIcons;
 
-public class TablerIcon : Viewbox
+public partial class TablerIcon : Viewbox
 {
+    private static Regex _regexToFindFilled = MyRegex();
+    
+    [GeneratedRegex(@"Filled$")]
+    private static partial Regex MyRegex();
+    
     public static readonly DependencyProperty ForegroundProperty = 
         DependencyProperty.Register(nameof (Foreground), typeof (Brush), typeof (TablerIcon), new PropertyMetadata(Brushes.Black, 
             OnIconPropertyChanged));
@@ -27,10 +33,7 @@ public class TablerIcon : Viewbox
         UIElement.OpacityProperty.OverrideMetadata(typeof (TablerIcon), (PropertyMetadata) new UIPropertyMetadata((object) 1.0));
     }
 
-    public TablerIcon()
-    {
-    }
-    
+    public TablerIcon() { }
     
     public Brush Foreground
     {
@@ -56,8 +59,19 @@ public class TablerIcon : Viewbox
     {
         if (!(d is TablerIcon tablericon))
             return;
-        tablericon.Child = tablericon.Icon != TablerIconGlyph.None ? 
-            (UIElement) tablericon.Icon.CreatePath(tablericon.Foreground, tablericon.Thickness) : (UIElement) null;
+
+        var iconName = Enum.GetName(typeof(TablerIconGlyph), tablericon.Icon);
+        
+        if (_regexToFindFilled.IsMatch(iconName))
+        {
+            tablericon.Child = tablericon.Icon != TablerIconGlyph.None ? 
+                (UIElement) tablericon.Icon.CreatePath(tablericon.Foreground) : (UIElement) null;
+        }
+        else
+        {
+            tablericon.Child = tablericon.Icon != TablerIconGlyph.None ? 
+                (UIElement) tablericon.Icon.CreatePath(tablericon.Foreground, tablericon.Thickness) : (UIElement) null; 
+        }
     }
     
     public double Rotation

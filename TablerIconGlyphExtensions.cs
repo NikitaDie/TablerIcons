@@ -26,6 +26,26 @@ public static class TablerIconGlyphExtensions
         return path2;
     }
     
+    public static Path? CreatePath(this TablerIconGlyph glyph, Brush foregroundBrush) 
+    {
+        string path1;
+        int width;
+        int height;
+        if (!glyph.GetSvg(out path1, out width, out height))
+            return (Path) null;
+        Path path2 = new Path();
+        path2.Data = Geometry.Parse(path1);
+        path2.StrokeThickness = 0;
+        // path2.StrokeLineJoin = PenLineJoin.Round;
+        // path2.StrokeStartLineCap = PenLineCap.Round;
+        // path2.StrokeEndLineCap = PenLineCap.Round;
+        path2.Stroke = foregroundBrush;
+        path2.Width = (double) width;
+        path2.Height = (double) height;
+        path2.Fill = foregroundBrush;
+        return path2;
+    }
+    
     public static bool GetSvg(this TablerIconGlyph glyph, out string? path, out int width, out int height)
     {
         path = (string) null;
